@@ -1,9 +1,23 @@
-// . Write a function calculateDiscount that takes two 
-// parameters: price and discount (with a default value of 10). The function should 
-// return the final price after applying the discount. 
+// 1.Debounce Function: Implement a debounce function that limits the frequency 
+// of a function's execution when called repeatedly within a specified time frame.
+//  This is useful in scenarios like resizing or scrolling events.
 
-function calculateDiscount(price, discount) {
-    return price * ((100-discount) / 100);
+
+function debounce(func, delay) {
+    let timerId;
+    return function(...args) {
+        clearTimeout(timerId);
+        timerId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
 }
-let ans = calculateDiscount(100, 10); 
-console.log(ans);
+
+
+function logResize() {
+    console.log(`Window size: ${window.innerWidth}x${window.innerHeight}`);
+}
+
+const debouncedLogResize = debounce(logResize, 500);
+
+window.addEventListener('resize', debouncedLogResize);

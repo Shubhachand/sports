@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debounced Search Example</title>
+</head>
+<body>
+    <input type="text" id="search" placeholder="Search..." />
+    <div id="results"></div>
+
+    <script>
+        // Simulate an API call
+        async function fetchSuggestions(query) {
+            console.log(`Fetching suggestions for: ${query}`);
+            // Simulated delay
+            return new Promise(resolve => {
+                setTimeout(() => resolve([`Result 1 for ${query}`, `Result 2 for ${query}`]), 1000);
+            });
+        }
+
+        // Function to display results
+        async function handleSearch(event) {
+            const query = event.target.value;
+            if (query) {
+                const suggestions = await fetchSuggestions(query);
+                document.getElementById('results').innerHTML = suggestions.join('<br>');
+            } else {
+                document.getElementById('results').innerHTML = '';
+            }
+        }
+
+        // Debounce function
+        function debounce(func, delay) {
+            let timerId;
+            return function (...args) {
+                clearTimeout(timerId);
+                timerId = setTimeout(() => {
+                    func.apply(this, args);
+                }, delay);
+            };
+        }
+
+        // Attach debounced search handler to input field
+        const searchInput = document.getElementById('search');
+        searchInput.addEventListener('input', debounce(handleSearch, 500));
+    </script>
+</body>
+</html>

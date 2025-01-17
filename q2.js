@@ -1,12 +1,22 @@
-// Create a function mergeArrays that takes two arrays as parameters and returns a new 
-// // array that combines both arrays using the spread operator. 
+// 2.Longest Substring Without Repeating Characters: Find the length of the longest substring without repeating characters.
 
-function mergeArrays(arr1, arr2) {
-    return [...arr1, ...arr2];
+function lengthOfLongestSubstring(s) {
+  let maxLength = 0;
+  let start = 0;
+  let seen = {};
+
+  for (let end = 0; end < s.length; end++) {
+    let char = s[end];
+
+    if (seen[char] >= start) {
+      start = seen[char] + 1;
+    }
+
+    seen[char] = end;
+    maxLength = Math.max(maxLength, end - start + 1);
+  }
+
+  return maxLength;
 }
 
-
-let arr1 = [1, 2, 3];
-let arr2 = [4, 5, 6];
-
-console.log(mergeArrays(arr1, arr2)); 
+console.log(lengthOfLongestSubstring("abcabcbb")); // Output: 3
